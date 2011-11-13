@@ -22,24 +22,40 @@
  * THE SOFTWARE.
  */
 
-package org.jenkins_ci.plugins.any_buildstep;
+package org.jenkins_ci.plugins.any_buildstep.publisher;
 
+import hudson.Extension;
 import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
+import hudson.model.Hudson;
 import hudson.tasks.BuildStep;
-import org.jenkins_ci.plugins.conditional_builder.DefaultBuilderDescriptorLister;
-import org.jenkins_ci.plugins.flexible_publish.DefaultPublisherDescriptorLister;
+import org.jenkins_ci.plugins.any_buildstep.AnyBuildStepDescriptorLister;
+import org.jenkins_ci.plugins.any_buildstep.Messages;
+import org.jenkins_ci.plugins.flexible_publish.PublisherDescriptorLister;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.List;
 
-public class AnyBuildStepDescriptorLister {
+public class PublisherLister implements PublisherDescriptorLister {
 
-    public static List<? extends Descriptor<? extends BuildStep>> getBuildSteps(final AbstractProject<?, ?> project) {
-        final DefaultBuilderDescriptorLister builderLister = new DefaultBuilderDescriptorLister();
-        final DefaultPublisherDescriptorLister publisherLister = new DefaultPublisherDescriptorLister();
-        final List steps = builderLister.getAllowedBuilders(project);
-        steps.addAll(publisherLister.getAllowedPublishers(project));
-        return steps;
+    @DataBoundConstructor
+    public PublisherLister() {
     }
 
+    public List<? extends Descriptor<? extends BuildStep>> getAllowedPublishers(final AbstractProject<?, ?> project) {
+        return AnyBuildStepDescriptorLister.getBuildSteps(project);
+    }
+
+    public PublisherDescriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(PublisherDescriptor.class);
+    }
+
+    @Extension
+    public static class PublisherDescriptor extends Descriptor<PublisherDescriptorLister> {
+        @Override
+        public String getDisplayName() {
+            return Messages.displayName();
+        }
+    }
+    
 }
