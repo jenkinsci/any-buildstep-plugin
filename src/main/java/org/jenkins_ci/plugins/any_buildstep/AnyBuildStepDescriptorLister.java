@@ -29,46 +29,22 @@ import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.tasks.BuildStep;
-import hudson.tasks.BuildStepDescriptor;
-import hudson.tasks.Builder;
-import hudson.tasks.Publisher;
 import org.jenkins_ci.plugins.conditional_builder.BuilderDescriptorLister;
-import org.jenkins_ci.plugins.conditional_builder.ConditionalBuilder;
-import org.jenkins_ci.plugins.flexible_publish.FlexiblePublisher;
+import org.jenkins_ci.plugins.conditional_builder.DefaultBuilderDescriptorLister;
+import org.jenkins_ci.plugins.flexible_publish.DefaultPublisherDescriptorLister;
 import org.jenkins_ci.plugins.flexible_publish.PublisherDescriptorLister;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnyBuildStepDescriptorLister {
 
-    private static List<BuildStepDescriptor<? extends BuildStep>> getBuildSteps(final AbstractProject<?, ?> project) {
-        final List<BuildStepDescriptor<? extends BuildStep>> steps = new ArrayList<BuildStepDescriptor<? extends BuildStep>>();
-        if (project == null) return steps;
-        final List<Descriptor> potential = new ArrayList<Descriptor>();
-        potential.addAll(Builder.all());
-        potential.addAll(Publisher.all());
-        for (Descriptor descriptor : potential) {
-            if (descriptor instanceof FlexiblePublisher.FlexiblePublisherDescriptor) continue;
-            if (descriptor instanceof ConditionalBuilder.ConditionalBuilderDescriptor) continue;
-            if (!(descriptor instanceof BuildStepDescriptor)) continue;
-            BuildStepDescriptor<? extends Publisher> buildStepDescriptor = (BuildStepDescriptor) descriptor;
-            if ((project != null) && buildStepDescriptor.isApplicable(project.getClass())) {
-                if (hasDbc(buildStepDescriptor.clazz))
-                    steps.add(buildStepDescriptor);
-            }
-        }
+    private static List<? extends Descriptor<? extends BuildStep>> getBuildSteps(final AbstractProject<?, ?> project) {
+        final DefaultBuilderDescriptorLister builderLister = new DefaultBuilderDescriptorLister();
+        final DefaultPublisherDescriptorLister publisherLister = new DefaultPublisherDescriptorLister();
+        final List steps = builderLister.getAllowedBuilders(project);
+        steps.addAll(publisherLister.getAllowedPublishers(project));
         return steps;
-    }
-
-    private static boolean hasDbc(final Class<?> clazz) {
-        for (Constructor<?> constructor : clazz.getConstructors()) {
-            if (constructor.isAnnotationPresent(DataBoundConstructor.class))
-                return true;
-        }
-        return false;
     }
 
     public static class PublisherLister implements PublisherDescriptorLister {
