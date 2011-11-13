@@ -31,7 +31,7 @@ import hudson.model.Hudson;
 import hudson.tasks.BuildStep;
 import org.jenkins_ci.plugins.any_buildstep.AnyBuildStepDescriptorLister;
 import org.jenkins_ci.plugins.any_buildstep.Messages;
-import org.jenkinsci.plugins.conditionalbuildstep.singlestep.BuilderDescriptorLister;
+import org.jenkinsci.plugins.conditionalbuildstep.lister.BuilderDescriptorLister;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.List;

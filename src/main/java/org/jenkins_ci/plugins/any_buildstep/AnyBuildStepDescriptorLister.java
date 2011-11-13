@@ -28,7 +28,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.tasks.BuildStep;
 import org.jenkins_ci.plugins.flexible_publish.DefaultPublisherDescriptorLister;
-import org.jenkinsci.plugins.conditionalbuildstep.singlestep.DefaultBuilderDescriptorLister;
+import org.jenkinsci.plugins.conditionalbuildstep.lister.DefaultBuilderDescriptorLister;
 
 import java.util.List;
 
