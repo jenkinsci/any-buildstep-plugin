@@ -35,7 +35,7 @@
     <artifactId>any-buildstep</artifactId>
     <packaging>hpi</packaging>
     <name>Any Build Step Plugin</name>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <description>Use publishers as builders and builders as publishers :-/</description>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Any+Build+Step+Plugin</url>
 
@@ -62,12 +62,12 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>flexible-publish</artifactId>
-            <version>0.7</version>
+            <version>0.8-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>conditional-buildstep</artifactId>
-            <version>0.2</version>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
