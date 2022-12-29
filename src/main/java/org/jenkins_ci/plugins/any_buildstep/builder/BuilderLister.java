@@ -29,6 +29,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.tasks.BuildStep;
+import jenkins.model.Jenkins;
 import org.jenkins_ci.plugins.any_buildstep.AnyBuildStepDescriptorLister;
 import org.jenkins_ci.plugins.any_buildstep.Messages;
 import org.jenkinsci.plugins.conditionalbuildstep.lister.BuilderDescriptorLister;
@@ -47,7 +48,7 @@ public class BuilderLister implements BuilderDescriptorLister {
     }
 
     public BuilderDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BuilderDescriptor.class);
+        return Jenkins.get().getDescriptorByType(BuilderDescriptor.class);
     }
 
     @Extension
