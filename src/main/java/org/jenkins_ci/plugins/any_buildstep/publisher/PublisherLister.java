@@ -29,6 +29,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.tasks.BuildStep;
+import jenkins.model.Jenkins;
 import org.jenkins_ci.plugins.any_buildstep.AnyBuildStepDescriptorLister;
 import org.jenkins_ci.plugins.any_buildstep.Messages;
 import org.jenkins_ci.plugins.flexible_publish.PublisherDescriptorLister;
@@ -47,7 +48,7 @@ public class PublisherLister implements PublisherDescriptorLister {
     }
 
     public PublisherDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(PublisherDescriptor.class);
+        return Jenkins.get().getDescriptorByType(PublisherDescriptor.class);
     }
 
     @Extension
